@@ -1,3 +1,9 @@
+/*
+    Notes:
+        O(n) preprocessing
+        ~O(1) queries
+*/
+
 struct DisjointSet {
     vector<int> parent, size;
     DisjointSet(int n) {
