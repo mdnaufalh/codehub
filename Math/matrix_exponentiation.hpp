@@ -1,21 +1,39 @@
+/* 
+ * Usage :
+ * 1)Initialization : 
+ * 	a) Matrix a(Matrix, MODULO)
+ * 	b) Matrix b(2d vector, MODULO)
+ * 	If MODULO unspecified, MODULO = T_MAX, where T = data type used for elements for matrix
+ * 2)Supported operations :
+ * 	a) Matrix addition(c = a + b, c += a) Supported Matrix + 2d vector
+ * 	b) Matrixx multiplication(c = a * b, c *= a) Supported Matrix * 2d vector
+ * 	c) Matrix power(a ^ n)
+ * 	d) Matrix row_count, col_count functions
+ * 	e) Matrix 2d indexing( a[4][3], just like how'd use  with a 2d vector)
+ * 3)TODO in FUTURE:
+ * 	a) Implemet ^= operation
+ * 	b) Better multiplication algorithm choice (Strassen)
+ * 	c) Implement multiplication with 1d vector
+ * 	d) Check extensively for bugs
+ */
 struct IncompatibleDimensionsException : public exception {};
 struct IndexOutOfBoundsException : public exception {};
 template <typename T> struct Matrix {
 	vector<vector<T>> _mat;
     T _MOD;
-    Matrix(const vector<vector<T>>& mat, T _MOD = numeric_limits<T>::max()) {
+    Matrix(const vector<vector<T>>& mat, T mod = numeric_limits<T>::max()) {
         _mat = mat;
-        _MOD = _MOD;
+        _MOD = mod;
     } 
 
-    Matrix(const Matrix& other, T _MOD = numeric_limits<T>::max()) {
+    Matrix(const Matrix& other, T mod = numeric_limits<T>::max()) {
         _mat = other._mat;
-        _MOD = _MOD;
+        _MOD = mod;
     }
 
-    Matrix(const int n,const int m, T _MOD = numeric_limits<T>::max()) {
+    Matrix(const int n,const int m, T mod = numeric_limits<T>::max()) {
         _mat = vector<vector<T>>(n, vector<T>(m, 0));
-        _MOD = _MOD;
+        _MOD = mod;
     }
 
     Matrix<T> operator+(Matrix<T>& other) {
@@ -82,7 +100,7 @@ template <typename T> struct Matrix {
     }
 
     Matrix<T> operator^(long long n) {
-        Matrix<T> l = (*this);
+        Matrix<T> l(*this, this->_MOD);
         Matrix<T> ans(this->row_count(), this->col_count(), this->_MOD);
         for(int i = 0; i < min(row_count(), col_count()); ++i) 
             ans[i][i] = 1;
