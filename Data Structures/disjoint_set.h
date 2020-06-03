@@ -1,32 +1,16 @@
-/*
-    Notes:
-        O(n) preprocessing
-        ~O(1) queries
-*/
+// From KACTL
 
-struct DisjointSet {
-    vector<int> parent, size;
-    DisjointSet(int n) {
-        size.resize(n); parent.resize(n);
-        for(int i = 0; i < n; ++i)
-            parent[i] = i, size[i] = 1;
-    }
-
-    int find_parent(int i) {
-        while(i != parent[i]) {
-            parent[i] = parent[parent[i]];
-            i = parent[i];
-        }
-        return i;
-    }
-
-    void union1(int i, int j) {
-        int a = find_parent(i);
-        int b = find_parent(j);
-        if(a == b) return;
-        if(size[a] < size[b]) swap(a, b);
-        parent[b] = a;
-        size[a] += size[b];
+struct UF {
+    vector<int> e;
+    UF(int n) : e(n, -1) {}
+    bool sameSet(int a, int b) { return find(a) == find(b); }
+    int size(int x) { return -e[find(x)]; }
+    int find(int x) { return e[x] < 0 ? x : e[x] = find(e[x]); }
+    bool join(int a, int b) {
+        a = find(a), b = find(b);
+        if (a == b) return false;
+        if (e[a] > e[b]) swap(a, b);
+        e[a] += e[b]; e[b] = a;
+        return true;
     }
 };
-
