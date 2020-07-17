@@ -1,0 +1,21 @@
+Assume a function f as below
+
+f(x) = 0 if x in [start, k]
+     = 1 if x in [k+1, end]
+     
+Here k represents last position of zero. 
+
+Then the following b.s implementation:
+
+l = forbidden left value (-1 in case of an array)
+r = forbidden right value (n in case of array of size n)
+while r-l > 1:
+    m = (l+r)//2
+    if F(a[m]): -> Predicate function with same definition as above
+        l = m
+    else:
+        r = m
+        
+After termination, l = k, r = k + 1
+
+If it runs too slow or you want to use floating point parameters, use fixed number of iterations (~70) and terminate
