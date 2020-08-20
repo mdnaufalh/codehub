@@ -1,7 +1,7 @@
 Assume a function f as below
 
-f(x) = 0 if x in [start, k]
-     = 1 if x in [k+1, end]
+f(x) = 1 if x in [start, k]
+     = 0 if x in [k+1, end]
      
 Here k represents last position of zero. 
 
